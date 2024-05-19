@@ -17,9 +17,9 @@
 */
 int		ft_strlen(char const *str);
 
-// int		ft_strcmp(char const *s1, char const *s2);
+int		ft_strcmp(char const *s1, char const *s2);
 
-// char	*ft_strcpy(char *dst, char const *src);
+char	*ft_strcpy(char *dst, char const *src);
 
 ssize_t	ft_write(int fd, void const *buf, size_t nbyte);
 
@@ -52,23 +52,23 @@ int		main(void)
 	STRLEN("1")
 	printf("-done\n");
 
-	// printf("\n--strcmp\n");
-	// STRCMP("", "")
-	// STRCMP("toto", "toto")
-	// STRCMP("", "toto")
-	// STRCMP("toto", "")
-	// STRCMP("toto", "totobar")
+	printf("\n--strcmp\n");
+	STRCMP("", "")
+	STRCMP("toto", "toto")
+	STRCMP("", "toto")
+	STRCMP("toto", "")
+	STRCMP("toto", "totobar")
 	// printf("`%s`:`%s` = %d\n", "TOTO", NULL, ft_strcmp("TOTO", NULL));
 	// printf("`%s`:`%s` = %d\n", NULL, "TOTO", ft_strcmp(NULL, "TOTO"));
 	// printf("`%s`:`%s` = %d\n", NULL, NULL, ft_strcmp(NULL, NULL));
-	// printf("-done\n");
+	printf("-done\n");
 
-	// printf("\n--strcpy\n");
-	// printf("`%s` (`toto`)\n", ft_strcpy(buffer, "toto"));
-	// printf("`%s` (empty)\n", ft_strcpy(buffer, ""));
-	// printf("`%s` (`long message`)\n", ft_strcpy(buffer, "long message"));
-	// printf("`%s` (NULL > not modified)\n", ft_strcpy(buffer, NULL));
-	// printf("-done\n");
+	printf("\n--strcpy\n");
+	printf("`%s` (`toto`)\n", ft_strcpy(buffer, "toto"));
+	printf("`%s` (empty)\n", ft_strcpy(buffer, ""));
+	printf("`%s` (`long message`)\n", ft_strcpy(buffer, "long message"));
+	printf("`%s` (NULL > not modified)\n", ft_strcpy(buffer, NULL));
+	printf("-done\n");
 
 	printf("\n--write\n");
 	WRITE("toto", 4L)

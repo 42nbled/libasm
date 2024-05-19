@@ -2,7 +2,9 @@ NAME = libasm.a
 OBJ_DIR = objs
 SRCS =	ft_write.s \
 		ft_read.s \
-		ft_strlen.s
+		ft_strlen.s \
+		ft_strcpy.s \
+		ft_strcmp.s
 OBJS = $(patsubst %.s, $(OBJ_DIR)/%.o, $(SRCS))
 
 NA = nasm
