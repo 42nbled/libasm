@@ -1,10 +1,11 @@
 NAME = libasm.a
 OBJ_DIR = objs
-SRCS =	ft_write.s \
-		ft_read.s \
-		ft_strlen.s \
-		ft_strcpy.s \
-		ft_strcmp.s
+SRCS =  ft_write.s \
+        ft_read.s \
+        ft_strlen.s \
+        ft_strcpy.s \
+        ft_strcmp.s \
+        ft_strdup.s
 OBJS = $(patsubst %.s, $(OBJ_DIR)/%.o, $(SRCS))
 
 NA = nasm
@@ -28,12 +29,12 @@ $(OBJ_DIR)/%.o: %.s
 # Rule to compile C source files into object files
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(@D)
-	gcc -c $< -o $@
+	gcc -c -fPIC $< -o $@
 
 # Rule to link the executable using the static library
 $(EXEC): $(C_OBJS) $(NAME)
 	@echo "\033[0;34mLinking $(EXEC)...\033[0m"
-	gcc $(C_OBJS) -L. -lasm -o $(EXEC)
+	gcc $(C_OBJS) -L. -lasm -o $(EXEC) -lc -no-pie
 	@echo "\033[0;32mExecutable $(EXEC) created.\033[0m"
 
 # Rule to build the library only

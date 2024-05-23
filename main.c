@@ -25,7 +25,7 @@ ssize_t	ft_write(int fd, void const *buf, size_t nbyte);
 
 ssize_t	ft_read(int fd, void *buf, size_t nbyte);
 
-// char	*ft_strdup(char const *s1);
+char	*ft_strdup(char const *s1);
 
 /*
 ** Start !
@@ -86,15 +86,15 @@ int		main(void)
 	READ(buffer, 0)
 	printf("-done\n");
 
-	// printf("\n--ft_strdup\n");
-	// tmp2 = ft_strdup("toto");
-	// DUP(tmp2)
-	// free(tmp2);
-	// DUP("totobar")
-	// DUP("long message")
-	// DUP("")
-	// DUP(NULL)
-	// printf("-done\n");
+	printf("\n--ft_strdup\n");
+	tmp2 = ft_strdup("toto");
+	DUP(tmp2)
+	free(tmp2);
+	DUP("totobar")
+	DUP("long message")
+	DUP("")
+	DUP(NULL)
+	printf("-done\n");
 
 	return (0);
 }
