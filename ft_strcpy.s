@@ -5,8 +5,8 @@ ft_strcpy:
     mov     rdx, rdi
     test    rsi, rsi
     jne     _strcpy_body
-    mov     rax, 0
-    ret
+    ; mov     rax, 0
+    ; ret
 _strcpy_body:
     mov     al, [rsi]
     mov     [rdi], al

@@ -11,8 +11,8 @@ OBJS = $(patsubst %.s, $(OBJ_DIR)/%.o, $(SRCS))
 NA = nasm
 NA_FLAGS = -f elf64
 
-C_SRCS = main.c
-C_OBJS = $(patsubst %.c, $(OBJ_DIR)/%.o, $(C_SRCS))
+CXX_SRCS = main.cpp
+CXX_OBJS = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(CXX_SRCS))
 EXEC = test_program
 
 # Rule to create the static library
@@ -26,15 +26,15 @@ $(OBJ_DIR)/%.o: %.s
 	@mkdir -p $(@D)
 	$(NA) $(NA_FLAGS) $< -o $@
 
-# Rule to compile C source files into object files
-$(OBJ_DIR)/%.o: %.c
+# Rule to compile C++ source files into object files
+$(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(@D)
-	gcc -c -fPIC $< -o $@
+	g++ -c -fPIC $< -o $@
 
 # Rule to link the executable using the static library
-$(EXEC): $(C_OBJS) $(NAME)
+$(EXEC): $(CXX_OBJS) $(NAME)
 	@echo "\033[0;34mLinking $(EXEC)...\033[0m"
-	gcc $(C_OBJS) -L. -lasm -o $(EXEC) -lc -no-pie
+	g++ $(CXX_OBJS) -L. -lasm -o $(EXEC) -lc -no-pie
 	@echo "\033[0;32mExecutable $(EXEC) created.\033[0m"
 
 # Rule to build the library only
