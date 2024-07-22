@@ -12,6 +12,7 @@ extern "C" {
 	char    *ft_strdup(const char *s1);
 	// BONUS
 	int     ft_atoi_base(char *str, char *base);
+	// char	*ft_atoi_base(char *str, char *base);
 }
 
 void	test_strlen(const char *str) {
