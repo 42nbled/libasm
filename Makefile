@@ -31,7 +31,7 @@ $(OBJ_DIR)/%.o: %.s
 # Rule to compile C++ source files into object files
 $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(@D)
-	g++ -c -fPIC $< -o $@
+	g++ -c -fPIC -g $< -o $@
 
 # Rule to link the executable using the static library
 $(EXEC): $(CXX_OBJS) $(NAME)

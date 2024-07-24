@@ -104,14 +104,41 @@ _determine_signe_loop_insight:
 _base_size:
     mov     rbx, 0
 _base_size_loop:
-    mov     cl, byte [rdi + rbx]
+    mov     cl, byte [rsi + rbx]
     test    cl, cl
     je      _ft_atoi_base_loop_init
     inc     rbx
     jmp     _base_size_loop
 _ft_atoi_base_loop_init:
-
+    push    rax                   ; push signe
+    push    rbx                   ; push size
+    mov     rax, 0                ; result
+_ft_atoi_base_loop:
+    mov     cl, byte [rdi]        ; str[0]
+    test    cl, cl
+    je      _ret_one
+    mov     rbx, 0                ; i
+_ft_atoi_base_loop_two:
+    mov     dl, byte [rsi + rbx]  ; base[i]
+    test    dl, dl
+    je      _ret_zero
+_ft_atoi_base_cmp:
+    cmp     cl, dl
+    jne     _ft_atoi_base_after_cmp
+    pop     rdx                   ; pop size
+    imul    rax, rdx
+    add     rax, rbx
+    push    rdx                   ; push size
+    jmp     _ft_atoi_base_loop_two_end
+_ft_atoi_base_after_cmp:
+    inc     rbx
+    jmp     _ft_atoi_base_loop_two
+_ft_atoi_base_loop_two_end:
+    inc     rdi
+    jmp     _ft_atoi_base_loop
 _ret_one:
-    mov     rax, 1
+    pop     rbx
+    pop     rcx
+    imul    rax, rcx
     ret
 

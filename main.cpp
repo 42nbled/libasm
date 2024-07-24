@@ -2,6 +2,7 @@
 #include <cstring>
 #include <unistd.h>
 #include <fcntl.h>
+#include <iomanip> 
 
 extern "C" {
 	ssize_t ft_write(int fd, const void *buf, size_t nbyte);
@@ -13,6 +14,26 @@ extern "C" {
 	// BONUS
 	int     ft_atoi_base(char *str, char *base);
 	// char	*ft_atoi_base(char *str, char *base);
+}
+
+void print_header(const char* str) {
+    std::string text(str);
+    size_t text_length = text.length();
+    
+    if (text_length % 2 != 0) {
+        text += " ";
+        text_length++;
+    }
+
+    const size_t total_width = 39;
+    size_t len = (total_width - 2 - text_length) / 2;
+
+    std::cout << "\033[1m";
+    std::cout << std::string(total_width, '#') << std::endl;
+    std::cout << "#" << std::string(len, ' ') << text;
+	std::cout << std::string(total_width - 2 - len - text_length, ' ');
+    std::cout << "#" << std::endl << std::string(total_width, '#') << std::endl;
+    std::cout << "\033[0m";
 }
 
 void	test_strlen(const char *str) {
@@ -100,82 +121,98 @@ void test_strdup(const char *str) {
 	free(dup);
 }
 
+void test_ft_atoi_base(std::string str, std::string base) {
+	char	s[str.length() + 1];
+	char	b[base.length() + 1];
+	strcpy(s, str.c_str());
+	strcpy(b, base.c_str());
+
+	std::cout << std::left; // Align text to the left
+    std::cout << "String: \"" << std::setw(15) << str + "\"";
+    std::cout << "Base: \"" << std::setw(20) << base + "\"";
+	std::cout << "Result: \"";
+	std::cout << ft_atoi_base(s, b) << "\"" << std::endl;
+}
+
 int main() {
 
-	std::cout << "base size / NULL"                                     << std::endl;
-	std::cout << ft_atoi_base("2147483647", NULL)                       << std::endl;
-	std::cout << ft_atoi_base("2147483647", "")                         << std::endl;
-	std::cout << ft_atoi_base("2147483647", "0")                        << std::endl;
-	std::cout << "double_character_check"                               << std::endl;
-	std::cout << ft_atoi_base("2147483647", "01234567890")              << std::endl;
-	std::cout << ft_atoi_base("2147483647", "01234556789")              << std::endl;
-	std::cout << ft_atoi_base("2147483647", "01234567899")              << std::endl;
-	std::cout << "valid_character_check"                                << std::endl;
-	std::cout << ft_atoi_base("2147483647", "012345+6789")              << std::endl;
-	std::cout << ft_atoi_base("2147483647", "012-3456789")              << std::endl;
-	std::cout << ft_atoi_base("2147483647", "0123456 789")              << std::endl;
-	std::cout << ft_atoi_base("2147483647", "01234    56789")           << std::endl;
-	std::cout << "valid"                                                << std::endl;
-	std::cout << ft_atoi_base("2147483647", "0123456789")               << std::endl;
-	std::cout << ft_atoi_base("           2147483647", "0123456789")    << std::endl;
-	std::cout << ft_atoi_base("+2147483647", "0123456789")              << std::endl;
-	std::cout << ft_atoi_base("-2147483647", "0123456789")              << std::endl;
-	std::cout << ft_atoi_base("+-2147483647", "0123456789")             << std::endl;
-	std::cout << ft_atoi_base("--2147483647", "0123456789")             << std::endl;
-	std::cout << ft_atoi_base("           +2147483647", "0123456789")   << std::endl;
-	std::cout << ft_atoi_base("2147483647", "0123456789")               << std::endl;
-	std::cout << ft_atoi_base("A", "ABCDEFGH")                          << std::endl;
-	std::cout << ft_atoi_base("BA", "ABCDEFGH")                         << std::endl;
-	std::cout << ft_atoi_base("F0", "0123456789ABCDEF")                 << std::endl;
-	std::cout << ft_atoi_base("7FFFFFFF", "0123456789ABCDEF")           << std::endl;
+	// Test ft_strlen
+	print_header("FT_STRLEN");
+	test_strlen("");
+	test_strlen("1");
+	test_strlen("42");
+	test_strlen("Hello");
+	test_strlen("Hello World !");
+	std::cout << std::endl;
 
-	// // Test ft_strlen
-	// std::cout << "\033[1mFT_STRLEN\033[0m" << std::endl;
-	// test_strlen("");
-	// test_strlen("1");
-	// test_strlen("42");
-	// test_strlen("Hello");
-	// test_strlen("Hello World !");
-	// std::cout << std::endl;
+	// // Test ft_strcmp
+	print_header("FT_STRCMP");
+	test_strcmp("", "");
+	test_strcmp("", "Hello");
+	test_strcmp("Hello", "");
+	test_strcmp("Hello", "Hello");
+	test_strcmp("Hello", "42");
+	test_strcmp("Hello", "Hell");
+	test_strcmp("Hello", "Hello World");
+	std::cout << std::endl;
 
-	// // // Test ft_strcmp
-	// std::cout << "\033[1mFT_STRCMP\033[0m" << std::endl;
-	// test_strcmp("", "");
-	// test_strcmp("", "Hello");
-	// test_strcmp("Hello", "");
-	// test_strcmp("Hello", "Hello");
-	// test_strcmp("Hello", "42");
-	// test_strcmp("Hello", "Hell");
-	// test_strcmp("Hello", "Hello World");
-	// std::cout << std::endl;
+	// Test ft_strcpy
+	print_header("FT_STRCPY");
+	test_strcpy("");
+	test_strcpy("42");
+	test_strcpy("Hello");
+	test_strcpy("Hello World!");
+	std::cout << std::endl;
 
-	// // Test ft_strcpy
-	// std::cout << "\033[1mFT_STRCPY\033[0m" << std::endl;
-	// test_strcpy("");
-	// test_strcpy("42");
-	// test_strcpy("Hello");
-	// test_strcpy("Hello World!");
-	// std::cout << std::endl;
+	// Test ft_write
+	print_header("FT_WRITE");
+	test_write("Hello, ft_write!\n");
+	test_write("Another string for ft_write.\n");
+	std::cout << std::endl;
 
-	// // Test ft_write
-	// std::cout << "\033[1mFT_WRITE\033[0m" << std::endl;
-	// test_write("Hello, ft_write!\n");
-	// test_write("Another string for ft_write.\n");
-	// std::cout << std::endl;
+	// Test ft_read
+	print_header("FT_READ");
+	test_read("Makefile");
+	std::cout << std::endl;
 
-	// // Test ft_read
-	// std::cout << "\033[1mFT_READ\033[0m" << std::endl;
-	// test_read("Makefile");
-	// std::cout << std::endl;
+	// Test ft_strdup
+	print_header("FT_STRDUP");
+	test_strdup("");
+	test_strdup("Hello");
+	test_strdup("This is a test string for ft_strdup.");
+	std::cout << std::endl;
 
-	// // Test ft_strdup
-	// std::cout << "\033[1mFT_STRDUP\033[0m" << std::endl;
-	// test_strdup("");
-	// test_strdup("Hello");
-	// test_strdup("This is a test string for ft_strdup.");
-	// std::cout << std::endl;
-
-
-
+	// Test ft_atoi_base
+	print_header("FT_ATOI_BASE");
+	std::cout << std::endl;
+	std::cout << "\033[1mERROR MANAGEMENT\033[0m" << std::endl;
+	char	str[11] = "2147483647";
+	std::cout << "String: \"2147483647\"    ";
+    std::cout << "Base: \"NULL\"               ";
+	std::cout << "Result: \"";
+	std::cout << ft_atoi_base(str, NULL) << std::endl;
+	test_ft_atoi_base("2147483647", "");
+	test_ft_atoi_base("2147483647", "0");
+	test_ft_atoi_base("2147483647", "01234567890");
+	test_ft_atoi_base("2147483647", "01234556789");
+	test_ft_atoi_base("2147483647", "01234567899");
+	test_ft_atoi_base("2147483647", "012345+6789");
+	test_ft_atoi_base("2147483647", "012-3456789");
+	test_ft_atoi_base("2147483647", "0123456 789");
+	test_ft_atoi_base("2147483647", "01234    56789");
+	std::cout << "\033[1mVALID\033[0m" << std::endl;
+	test_ft_atoi_base("2147483647", "0123456789");
+	test_ft_atoi_base("   2147483647", "0123456789");
+	test_ft_atoi_base("+2147483647", "0123456789");
+	test_ft_atoi_base("-2147483647", "0123456789");
+	test_ft_atoi_base("+-2147483647", "0123456789");
+	test_ft_atoi_base("--2147483647", "0123456789");
+	test_ft_atoi_base("  +2147483647", "0123456789");
+	test_ft_atoi_base("2147483647", "0123456789");
+	test_ft_atoi_base("A", "ABCDEFGH");
+	test_ft_atoi_base("BA", "ABCDEFGH");
+	test_ft_atoi_base("F0", "0123456789ABCDEF");
+	test_ft_atoi_base("7FFFFFFF", "0123456789ABCDEF");
+	std::cout << std::endl;
 	return 0;
 }
