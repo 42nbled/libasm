@@ -13,7 +13,6 @@ extern "C" {
 	char    *ft_strdup(const char *s1);
 	// BONUS
 	int     ft_atoi_base(char *str, char *base);
-	// char	*ft_atoi_base(char *str, char *base);
 }
 
 void print_header(const char* str) {
@@ -200,6 +199,7 @@ int main() {
 	test_ft_atoi_base("2147483647", "012-3456789");
 	test_ft_atoi_base("2147483647", "0123456 789");
 	test_ft_atoi_base("2147483647", "01234    56789");
+	test_ft_atoi_base("214a7483647", "0123456789");
 	std::cout << "\033[1mVALID\033[0m" << std::endl;
 	test_ft_atoi_base("2147483647", "0123456789");
 	test_ft_atoi_base("   2147483647", "0123456789");

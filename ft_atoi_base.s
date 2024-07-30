@@ -1,6 +1,9 @@
 section .text
 global ft_atoi_base
 
+_ret_zero_clear:
+    pop     rax
+    pop     rax
 _ret_zero:
     mov     rax, 0
     ret
@@ -13,32 +16,22 @@ ft_atoi_base:
     mov     al, byte [rsi + 1]
     test    al, al
     je      _ret_zero
-
 _double_character_check:
-    ; i = 0
-    mov     rax, 0
+    mov     rax, 0    ; i = 0
 _double_character_check_loop_one:
-    ; cl = base[i]
-    mov     cl, byte [rsi + rax]
-    ; ret 1 si [dl != '\0']
-    test    cl, cl
+    mov     cl, byte [rsi + rax]    ; cl = base[i]
+    test    cl, cl    ; ret 1 si [dl != '\0']
     je      _valid_character_check
-    ; y = i + 1
-    mov     rbx, rax
+    mov     rbx, rax    ; y = i + 1
     inc     rbx
 _double_character_check_loop_two:
-    ; dl = base[y]
-    mov     dl, byte [rsi + rbx]
-    ; ret debut loop 1 si [dl != '\0']
-    test    dl, dl
+    mov     dl, byte [rsi + rbx]    ; dl = base[y]
+    test    dl, dl    ; ret debut loop 1 si [dl != '\0']
     je      _continue_loop_one
-    ; ret 0 si cl = dl
-    cmp     cl, dl
+    cmp     cl, dl    ; ret 0 si cl = dl
     je     _ret_zero
-    ; y++
-    inc     rbx
-    ; ret debut loop 2
-    jmp     _double_character_check_loop_two
+    inc     rbx    ; y++
+    jmp     _double_character_check_loop_two    ; ret debut loop 2
 _continue_loop_one:
     ; i++
     inc     rax
@@ -121,7 +114,7 @@ _ft_atoi_base_loop:
 _ft_atoi_base_loop_two:
     mov     dl, byte [rsi + rbx]  ; base[i]
     test    dl, dl
-    je      _ret_zero
+    je      _ret_zero_clear
 _ft_atoi_base_cmp:
     cmp     cl, dl
     jne     _ft_atoi_base_after_cmp
