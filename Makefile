@@ -6,7 +6,8 @@ SRCS =  ft_write.s \
         ft_strcpy.s \
         ft_strcmp.s \
         ft_strdup.s \
-		ft_atoi_base.s
+		ft_atoi_base.s \
+		ft_list_push_front.s \
 
 OBJS = $(patsubst %.s, $(OBJ_DIR)/%.o, $(SRCS))
 

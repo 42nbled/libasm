@@ -2,7 +2,14 @@
 #include <cstring>
 #include <unistd.h>
 #include <fcntl.h>
-#include <iomanip> 
+#include <iomanip>
+#include <cstdio>
+
+typedef struct s_list
+{
+	struct s_list *next;
+	void *data;
+} t_list;
 
 extern "C" {
 	ssize_t ft_write(int fd, const void *buf, size_t nbyte);
@@ -13,12 +20,16 @@ extern "C" {
 	char    *ft_strdup(const char *s1);
 	// BONUS
 	int     ft_atoi_base(char *str, char *base);
+	void	ft_list_push_front(t_list **begin_list, void *data);
+	// int 	ft_list_size(t_list *begin_list);
+	// void 	ft_list_sort(t_list **begin_list, int (*cmp)());
+	// void 	ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)(), void (*free_fct)(void *));
 }
 
 void print_header(const char* str) {
     std::string text(str);
     size_t text_length = text.length();
-    
+
     if (text_length % 2 != 0) {
         text += " ";
         text_length++;
@@ -214,5 +225,14 @@ int main() {
 	test_ft_atoi_base("F0", "0123456789ABCDEF");
 	test_ft_atoi_base("7FFFFFFF", "0123456789ABCDEF");
 	std::cout << std::endl;
+
+	print_header("FT_LIST_PUSH_FRONT");
+	std::cout << std::endl;
+	t_list a = {0};
+	t_list b = {.next = &a, 0};
+	t_list *c = &b;
+	ft_list_push_front(&c, reinterpret_cast<void*>(123));
+	printf("%ld\n", reinterpret_cast<long>(c->data));
+
 	return 0;
 }
