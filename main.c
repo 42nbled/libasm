@@ -16,6 +16,15 @@ void	ft_list_push_front(t_list **begin_list, void *data)
 	*begin_list = a;
 }
 
+int	ft_list_size(t_list *begin_list)
+{
+	if (begin_list == NULL)
+		return 0;
+	if (begin_list->next)
+		return(ft_list_size(begin_list->next) + 1);
+	return 1;
+}
+
 int main()
 {
 	t_list a = {0};
@@ -23,5 +32,7 @@ int main()
 	t_list *c = &b;
 	ft_list_push_front(&c, (void *)123);
 	printf("%d\n", (int)c->data);
+	printf("%d\n", ft_list_size(c));
+	printf("%d\n", ft_list_size(&a));
 	return 0;
 }

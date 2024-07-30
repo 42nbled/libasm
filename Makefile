@@ -8,6 +8,7 @@ SRCS =  ft_write.s \
         ft_strdup.s \
 		ft_atoi_base.s \
 		ft_list_push_front.s \
+		ft_list_size.s
 
 OBJS = $(patsubst %.s, $(OBJ_DIR)/%.o, $(SRCS))
 

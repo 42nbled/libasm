@@ -8,15 +8,15 @@ ft_list_push_front:
 	push	rsi
 	mov		rdi, 16
 	call	malloc
-ft_list_push_front_2:
+	test	rax, rax
+	je		_ret
 	pop		rsi
 	pop		rdi
-	mov		rbx, [rax]
 	; a->next = *begin_list;
-	mov		[rbx + 0x00], rdi
+	mov		[rax + 0x00], rdi
 	; a->data = data;
-	mov		[rbx + 0x08], rsi
+	mov		[rax + 0x08], rsi
 	; *begin_list = a;
-	mov		rdi, [rdi]
 	mov		[rdi], rax
+_ret:
 	ret
