@@ -13,7 +13,7 @@ SRCS =  ft_write.s \
 OBJS = $(patsubst %.s, $(OBJ_DIR)/%.o, $(SRCS))
 
 NA = nasm
-NA_FLAGS = -f elf64 -g
+NA_FLAGS = -f elf64 -g -F dwarf
 
 CXX_SRCS = main.cpp
 CXX_OBJS = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(CXX_SRCS))

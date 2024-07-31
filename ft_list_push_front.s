@@ -13,7 +13,8 @@ ft_list_push_front:
 	pop		rsi
 	pop		rdi
 	; a->next = *begin_list;
-	mov		[rax + 0x00], rdi
+	mov		rbx, [rdi]
+	mov		[rax + 0x00], rbx
 	; a->data = data;
 	mov		[rax + 0x08], rsi
 	; *begin_list = a;

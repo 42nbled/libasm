@@ -4,7 +4,7 @@ global ft_list_size
 ft_list_size:
 	test	rdi, rdi
 	je		_ret_zero
-	mov		rdi, [rdi + 0x00]
+	mov		rdi, [rdi]
 	test	rdi, rdi
 	je		_ret_one
 	call	ft_list_size
