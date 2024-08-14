@@ -4,6 +4,9 @@
 #include <fcntl.h>
 #include <iomanip>
 #include <cstdio>
+#include <cstdarg>   // For va_list, va_start, va_arg, va_end
+#include <vector>    // For linked list simulation
+#include <memory>    // For std::shared_ptr
 
 typedef struct s_list
 {
@@ -22,9 +25,13 @@ extern "C" {
 	int     ft_atoi_base(char *str, char *base);
 	void	ft_list_push_front(t_list **begin_list, void *data);
 	int 	ft_list_size(t_list *begin_list);
-	// void 	ft_list_sort(t_list **begin_list, int (*cmp)());
+	void 	ft_list_sort(t_list **begin_list, int (*cmp)());
 	// void 	ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)(), void (*free_fct)(void *));
 }
+
+// ------------------------------------------------
+//   UTILS
+// ------------------------------------------------
 
 void print_header(const char* str) {
     std::string text(str);
@@ -45,6 +52,74 @@ void print_header(const char* str) {
     std::cout << "#" << std::endl << std::string(total_width, '#') << std::endl;
     std::cout << "\033[0m";
 }
+
+// ------------------------------------------------
+//   UTILS BONUS
+// ------------------------------------------------
+
+void init_list(t_list** head, const std::string& type, int count, ...) {
+    va_list args;
+    va_start(args, count);
+
+    for (int i = 0; i < count; i++) {
+        if (type == "int") {  // Integer type
+            int* value = new int(va_arg(args, int));
+            ft_list_push_front(head, static_cast<void*>(value));
+        } else if (type == "str") {  // String type
+            char* str = va_arg(args, char*);
+            char* value = strdup(str);  // Duplicate the string to allocate memory
+            ft_list_push_front(head, static_cast<void*>(value));
+        }
+    }
+
+    va_end(args);
+}
+
+// Function to print the linked list
+void print_list(t_list* head, void (*print_data)(void*)) {
+    t_list* temp = head;
+    while (temp != nullptr) {
+        print_data(temp->data);
+        temp = temp->next;
+    }
+    std::cout << "NULL" << std::endl;
+}
+
+// Example print function for integers
+void print_int(void* data) {
+    std::cout << *(static_cast<int*>(data)) << " -> ";
+}
+
+// Example print function for strings
+void print_str(void* data) {
+    std::cout << static_cast<char*>(data) << " ";
+}
+
+int	diff_int(t_list *a, t_list *b) {
+    if (!a || !a->data)
+		return 0;
+	if (!b || !b->data)
+		return 0;
+	int *data_a = (int *)a->data;
+    int *data_b = (int *)b->data;
+
+    return (*data_a - *data_b);
+}
+
+int	diff_str(t_list *a, t_list *b) {
+    if (!a || !a->data)
+		return 0;
+	if (!b || !b->data)
+		return 0;
+    char *data_a = (char *)a->data;
+    char *data_b = (char *)b->data;
+
+    return strcmp(data_a, data_b);
+}
+
+// ------------------------------------------------
+//   TEST
+// ------------------------------------------------
 
 void	test_strlen(const char *str) {
 	std::cout << std::endl;
@@ -131,6 +206,10 @@ void test_strdup(const char *str) {
 	free(dup);
 }
 
+// ------------------------------------------------
+//   TEST BONUS
+// ------------------------------------------------
+
 void test_ft_atoi_base(std::string str, std::string base) {
 	char	s[str.length() + 1];
 	char	b[base.length() + 1];
@@ -143,6 +222,10 @@ void test_ft_atoi_base(std::string str, std::string base) {
 	std::cout << "Result: \"";
 	std::cout << ft_atoi_base(s, b) << "\"" << std::endl;
 }
+
+// ------------------------------------------------
+//   MAIN
+// ------------------------------------------------
 
 int main() {
 
@@ -192,49 +275,77 @@ int main() {
 	test_strdup("This is a test string for ft_strdup.");
 	std::cout << std::endl;
 
-	// Test ft_atoi_base
-	print_header("FT_ATOI_BASE");
-	std::cout << std::endl;
-	std::cout << "\033[1mERROR MANAGEMENT\033[0m" << std::endl;
-	char	str[11] = "2147483647";
-	std::cout << "String: \"2147483647\"    ";
-    std::cout << "Base: \"NULL\"               ";
-	std::cout << "Result: \"";
-	std::cout << ft_atoi_base(str, NULL) << std::endl;
-	test_ft_atoi_base("2147483647", "");
-	test_ft_atoi_base("2147483647", "0");
-	test_ft_atoi_base("2147483647", "01234567890");
-	test_ft_atoi_base("2147483647", "01234556789");
-	test_ft_atoi_base("2147483647", "01234567899");
-	test_ft_atoi_base("2147483647", "012345+6789");
-	test_ft_atoi_base("2147483647", "012-3456789");
-	test_ft_atoi_base("2147483647", "0123456 789");
-	test_ft_atoi_base("2147483647", "01234    56789");
-	test_ft_atoi_base("214a7483647", "0123456789");
-	std::cout << "\033[1mVALID\033[0m" << std::endl;
-	test_ft_atoi_base("2147483647", "0123456789");
-	test_ft_atoi_base("   2147483647", "0123456789");
-	test_ft_atoi_base("+2147483647", "0123456789");
-	test_ft_atoi_base("-2147483647", "0123456789");
-	test_ft_atoi_base("+-2147483647", "0123456789");
-	test_ft_atoi_base("--2147483647", "0123456789");
-	test_ft_atoi_base("  +2147483647", "0123456789");
-	test_ft_atoi_base("2147483647", "0123456789");
-	test_ft_atoi_base("A", "ABCDEFGH");
-	test_ft_atoi_base("BA", "ABCDEFGH");
-	test_ft_atoi_base("F0", "0123456789ABCDEF");
-	test_ft_atoi_base("7FFFFFFF", "0123456789ABCDEF");
-	std::cout << std::endl;
+	{	// Test ft_atoi_base
+		print_header("FT_ATOI_BASE");
+		std::cout << std::endl;
+		std::cout << "\033[1mERROR MANAGEMENT\033[0m" << std::endl;
+		char	str[11] = "2147483647";
+		std::cout << "String: \"2147483647\"    ";
+		std::cout << "Base: \"NULL\"               ";
+		std::cout << "Result: \"";
+		std::cout << ft_atoi_base(str, NULL) << std::endl;
+		test_ft_atoi_base("2147483647", "");
+		test_ft_atoi_base("2147483647", "0");
+		test_ft_atoi_base("2147483647", "01234567890");
+		test_ft_atoi_base("2147483647", "01234556789");
+		test_ft_atoi_base("2147483647", "01234567899");
+		test_ft_atoi_base("2147483647", "012345+6789");
+		test_ft_atoi_base("2147483647", "012-3456789");
+		test_ft_atoi_base("2147483647", "0123456 789");
+		test_ft_atoi_base("2147483647", "01234    56789");
+		test_ft_atoi_base("214a7483647", "0123456789");
+		std::cout << "\033[1mVALID\033[0m" << std::endl;
+		test_ft_atoi_base("2147483647", "0123456789");
+		test_ft_atoi_base("   2147483647", "0123456789");
+		test_ft_atoi_base("+2147483647", "0123456789");
+		test_ft_atoi_base("-2147483647", "0123456789");
+		test_ft_atoi_base("+-2147483647", "0123456789");
+		test_ft_atoi_base("--2147483647", "0123456789");
+		test_ft_atoi_base("  +2147483647", "0123456789");
+		test_ft_atoi_base("2147483647", "0123456789");
+		test_ft_atoi_base("A", "ABCDEFGH");
+		test_ft_atoi_base("BA", "ABCDEFGH");
+		test_ft_atoi_base("F0", "0123456789ABCDEF");
+		test_ft_atoi_base("7FFFFFFF", "0123456789ABCDEF");
+		std::cout << std::endl;
+	}
 
 	print_header("FT_LIST_PUSH_FRONT");
-	std::cout << std::endl;
-	t_list a = {0};
-	t_list b = {.next = &a, 0};
-	t_list *c = &b;
-	ft_list_push_front(&c, reinterpret_cast<void*>(123));
-	printf("%ld\n", reinterpret_cast<long>(c->data));
-	printf("%d\n", ft_list_size(c));
-	printf("%d\n", ft_list_size(&a));
+
+	t_list *nbr = NULL;
+    t_list *str = NULL;
+
+	// Initialize the list with the given values
+	printf("##Initializing int list##\n");
+	init_list(&nbr, "int", 10, 7, 4, 6, 3, 8, 4, 7, 4, 1, 2);
+	printf("##Initializing string list##\n");
+	init_list(&str, "str", 5, "amet", "sit", "dolor", "ipsum,", "lorem");
+
+    // // Print the lists
+	printf("\n");
+	printf("int list    = ");
+    print_list(nbr, print_int);
+	printf("string list = ");
+    print_list(str, print_str);
+
+	// // Print lists size
+	printf("\n");
+	printf("Size of nbr list : %d\n", ft_list_size(nbr));
+	printf("Size of str list : %d\n", ft_list_size(str));
+
+	// Sort the lists
+	printf("\n");
+	printf("before sort : ");
+	print_list(nbr, print_int);
+	ft_list_sort(&nbr, diff_int);
+	printf("after sort  : ");
+	print_list(nbr, print_int);
+	printf("\n");
+	printf("before sort : ");
+	print_list(str, print_str);
+	ft_list_sort(&str, diff_str);
+	printf("after sort  : ");
+	print_list(str, print_str);
 
 	return 0;
 }

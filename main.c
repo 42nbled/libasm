@@ -242,11 +242,16 @@ int main() {
     t_list *str = NULL;
 
     // Initialize the list with the given values
+	printf("##Initializing int list##\n");
 	init_list(&nbr, "int", 10, 7, 4, 6, 3, 8, 4, 7, 4, 1, 2);
-	init_list(&str, "str", 5, "amet", "sit", "dolor", "ipsum,", "Lorem");
+	printf("##Initializing string list##\n");
+	init_list(&str, "str", 5, "amet", "sit", "dolor", "ipsum,", "lorem");
 
     // // Print the lists
+	printf("\n");
+	printf("int list    = ");
     print_list(nbr, print_int);
+	printf("string list = ");
     print_list(str, print_str);
 
 	// // Print lists size
@@ -256,24 +261,36 @@ int main() {
 
 	// // Sort the lists
 	printf("\n");
+	printf("before sort : ");
 	print_list(nbr, print_int);
 	ft_list_sort(&nbr, diff_int);
+	printf("after sort  : ");
 	print_list(nbr, print_int);
 	printf("\n");
+	printf("before sort : ");
 	print_list(str, print_str);
 	ft_list_sort(&str, diff_str);
+	printf("after sort  : ");
 	print_list(str, print_str);
 
 	// Remove if
+	printf("\n");
 	int		a = 3;
     void	*tmp = &a;
+	printf("##Removing 3 in int list##\n");
     ft_list_remove_if(&nbr, tmp, ft_intcmp, ft_free);
-    print_list(nbr, print_int);
 
     // Remove strings
-    char 	*b = "c";
+    char 	*b = "sit";
     tmp = b;
+	printf("##Removing sit in string list##\n");
     ft_list_remove_if(&str, tmp, ft_strcmp, ft_free);
+
+	// // Print the lists
+	printf("\n");
+	printf("int list    = ");
+    print_list(nbr, print_int);
+	printf("string list = ");
     print_list(str, print_str);
 
     // Free the allocated memory
