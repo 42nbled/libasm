@@ -337,13 +337,13 @@ int main() {
 	printf("\n");
 	printf("before sort : ");
 	print_list(nbr, print_int);
-	ft_list_sort(&nbr, diff_int);
+	ft_list_sort(&nbr, (int (*)())diff_int);
 	printf("after sort  : ");
 	print_list(nbr, print_int);
 	printf("\n");
 	printf("before sort : ");
 	print_list(str, print_str);
-	ft_list_sort(&str, diff_str);
+	ft_list_sort(&str, (int (*)())diff_str);
 	printf("after sort  : ");
 	print_list(str, print_str);
 
