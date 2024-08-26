@@ -1,0 +1,8 @@
+rax = prev
+rbx = current (prev->next)
+rcx = free_fct
+rdx = cmp
+rdi = current->data
+rsi = data_ref
+
+stack :

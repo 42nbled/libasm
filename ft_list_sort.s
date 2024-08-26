@@ -95,6 +95,7 @@ _while_do_d:
 	mov		rcx, rbx
 _after_cmp:
 	mov		rbx, [rbx + 0x00]
+	jmp		_while_start_d
 _while_end_d:
 	mov		rdx, [rax + 0x00]
 
@@ -111,9 +112,11 @@ _while_end_d:
 	pop		rdx
 	pop		rbx
 	pop		rax
-	push	rsi
+	pop		rsi
 	pop		rdi
 
 	mov		rax, rdx
+	jmp		_while_start_c
+_while_end_c:
 _ret:
 	ret

@@ -26,7 +26,7 @@ extern "C" {
 	void	ft_list_push_front(t_list **begin_list, void *data);
 	int 	ft_list_size(t_list *begin_list);
 	void 	ft_list_sort(t_list **begin_list, int (*cmp)());
-	// void 	ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)(), void (*free_fct)(void *));
+	void 	ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)(), void (*free_fct)(void *));
 }
 
 // ------------------------------------------------
@@ -64,6 +64,7 @@ void init_list(t_list** head, const std::string& type, int count, ...) {
     for (int i = 0; i < count; i++) {
         if (type == "int") {  // Integer type
             int* value = new int(va_arg(args, int));
+			// std::cout << value << std::endl;
             ft_list_push_front(head, static_cast<void*>(value));
         } else if (type == "str") {  // String type
             char* str = va_arg(args, char*);
@@ -95,18 +96,18 @@ void print_str(void* data) {
     std::cout << static_cast<char*>(data) << " ";
 }
 
-int	diff_int(t_list *a, t_list *b) {
+long	diff_int(t_list *a, t_list *b) {
     if (!a || !a->data)
 		return 0;
 	if (!b || !b->data)
 		return 0;
-	int *data_a = (int *)a->data;
-    int *data_b = (int *)b->data;
+	int data_a = *(int *)a->data;
+    int data_b = *(int *)b->data;
 
-    return (*data_a - *data_b);
+    return (data_a - data_b);
 }
 
-int	diff_str(t_list *a, t_list *b) {
+long	diff_str(t_list *a, t_list *b) {
     if (!a || !a->data)
 		return 0;
 	if (!b || !b->data)
@@ -115,6 +116,29 @@ int	diff_str(t_list *a, t_list *b) {
     char *data_b = (char *)b->data;
 
     return strcmp(data_a, data_b);
+}
+
+void ft_free(void *data)
+{
+    free(data);
+}
+
+int    ft_strcmp(void *data1, void *data2)
+{
+	return strcmp((char *)data1, (char *)data2);
+}
+
+int    ft_intcmp(void *data1, void *data2)
+{
+    return (*(int *)data1 - *(int *)data2);
+}
+
+int		is_troie(void *data1, void *data2)
+{
+	// std::cout << data << std::endl;
+	if (*(int *)data1 == 3)
+		return 0;
+	return 1;
 }
 
 // ------------------------------------------------
@@ -317,7 +341,8 @@ int main() {
 
 	// Initialize the list with the given values
 	printf("##Initializing int list##\n");
-	init_list(&nbr, "int", 10, 7, 4, 6, 3, 8, 4, 7, 4, 1, 2);
+	// init_list(&nbr, "int", 10, 7, 4, 6, 3, 8, 4, 7, 4, 1, 3);
+	init_list(&nbr, "int", 4, 3, 1, 3, 3);
 	printf("##Initializing string list##\n");
 	init_list(&str, "str", 5, "amet", "sit", "dolor", "ipsum,", "lorem");
 
@@ -328,24 +353,44 @@ int main() {
 	printf("string list = ");
     print_list(str, print_str);
 
-	// // Print lists size
-	printf("\n");
-	printf("Size of nbr list : %d\n", ft_list_size(nbr));
-	printf("Size of str list : %d\n", ft_list_size(str));
+	// // // Print lists size
+	// printf("\n");
+	// printf("Size of nbr list : %d\n", ft_list_size(nbr));
+	// printf("Size of str list : %d\n", ft_list_size(str));
 
-	// Sort the lists
+	// // Sort the lists
+	// printf("\n");
+	// printf("before sort : ");
+	// print_list(nbr, print_int);
+	// ft_list_sort(&nbr, (int (*)())diff_int);
+	// printf("after sort  : ");
+	// print_list(nbr, print_int);
+	// printf("\n");
+	// printf("before sort : ");
+	// print_list(str, print_str);
+	// ft_list_sort(&str, (int (*)())diff_str);
+	// printf("after sort  : ");
+	// print_list(str, print_str);
+
+	// Remove if
 	printf("\n");
-	printf("before sort : ");
-	print_list(nbr, print_int);
-	ft_list_sort(&nbr, (int (*)())diff_int);
-	printf("after sort  : ");
-	print_list(nbr, print_int);
+	int		a = 3;
+    void	*tmp = &a;
+	printf("##Removing 3 in int list##\n");
+    ft_list_remove_if(&nbr, tmp, (int (*)())is_troie, ft_free);
+
+    // Remove strings
+    // char 	*b = "sit";
+    // tmp = b;
+	// printf("##Removing sit in string list##\n");
+    // ft_list_remove_if(&str, tmp, ft_strcmp, ft_free);
+
+    // // Print the lists
 	printf("\n");
-	printf("before sort : ");
-	print_list(str, print_str);
-	ft_list_sort(&str, (int (*)())diff_str);
-	printf("after sort  : ");
-	print_list(str, print_str);
+	printf("int list    = ");
+    print_list(nbr, print_int);
+	printf("string list = ");
+    print_list(str, print_str);
 
 	return 0;
 }
