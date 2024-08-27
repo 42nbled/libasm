@@ -1,11 +1,10 @@
-section .data
-_message:
-    db "loop", 10
 section .text
 global ft_list_remove_if
 extern free
 
-_debug:
+; r9	= data
+; r10	= fonction
+_marco_call:
 	push	rax
 	push	rbx
 	push	rcx
@@ -13,130 +12,123 @@ _debug:
 	push	rdi
 	push	rsi
 
-    mov    rax, 0x01
-    mov rdi, 1
-    mov rsi, _message
-    mov    rdx, 5
-    syscall
+	mov		rdi, r9
+	call	r10
+
 	pop		rsi
 	pop		rdi
 	pop		rdx
 	pop		rcx
 	pop		rbx
 	pop		rax
-
-    ret
+	ret
 
 ; rdi = t_list **begin_list
 ; rsi = void *data_ref
 ; rdx = int (*cmp)()
 ; rcx = void (*free_fct)(void *)
 ft_list_remove_if:
+	push	rbp
+	mov		rbp, rsp
+	sub		rsp, 24
+
+								; rbp - 0	= current
+								; rbp - 8	= prev
+								; rbp - 16	= temp
+								; while (
 _loop_start:
+								; *begin_list
 	mov		rax, [rdi]
 	test	rax, rax
 	je		_loop_end
-
-	push	rax
-	push	rcx
-	push	rdx
-	push	rdi
-	push	rsi
-
-	mov		rdi, [rax + 0x08]
-	call	rdx
-
-	cmp		rax, 0
-	pop		rsi
-	pop		rdi
-	pop		rdx
-	pop		rcx
-	pop		rax
-
+								; && cmp((*begin_list)->data, data_ref) == 0
+	mov		r9, [rax + 0x08]
+	mov		r10, rdx
+	call	_marco_call
+	test	rax, rax
 	jne		_loop_end
-
+								; ) {
 _loop_do:
-	mov		rbx, [rax + 0x00]
-	mov		[rdi], rbx
-
-	push	rax
-	push	rbx
-	push	rcx
-	push	rdx
-	push	rdi
-	push	rsi
-	push	rax
-
-	mov		rdi, [rax + 0x08]
-	call	rcx
-
-	pop		rdi
-	call	free
-
-	pop		rsi
-	pop		rdi
-	pop		rdx
-	pop		rcx
-	pop		rbx
-	pop		rax
-
+								;     temp = *begin_list;
+	mov		rax, [rdi]
+	mov		[rbp - 0x10], rax
+								;     *begin_list = (*begin_list)->next;
+	mov		rax, [rdi]
+	mov		rax, [rax + 0x00]
+	mov		[rdi], rax
+								;     free_fct(temp->data);
+	mov		rax, [rbp - 0x10]
+	mov		r9, [rax + 0x08]
+	mov		r10, rcx
+	call	_marco_call
+								;     free(temp);
+	mov		r9, [rbp - 0x10]
+	mov		r10, free
+	call	_marco_call
+								; }
 	jmp		_loop_start
 _loop_end:
+								; prev = *begin_list;
+	mov		[rbp - 0x08], rdi
+								; if (prev == NULL)
+	mov		rax, [rbp - 0x08]
 	test	rax, rax
+								;     return;
 	je		_ret
-	mov		rbx, [rax + 0x00]
+								; current = prev->next;
+	mov		rax, [rbp - 0x08]
+	mov		rax, [rax + 0x00]
+	mov		[rbp - 0x00], rax
+								; while (
 _second_loop_start:
-	test	rbx, rbx
-	je		_ret
+								;    current
+	mov		rax, [rbp - 0x00]
+	test	rax, rax
+	jne		_ret
+								;    ) {
 _second_loop_do:
-	mov		rdi, [rbx + 0x08]
-	push	rax
-	push	rbx
-	push	rcx
-	push	rdx
-	push	rdi
-	push	rsi
-
-	call	rdx
-	cmp		rax, 0
-
-	pop		rsi
-	pop		rdi
-	pop		rdx
-	pop		rcx
-	pop		rbx
-	pop		rax
-
+								;    if (cmp(current->data, data_ref) == 0)
+	mov		r9, [rax + 0x08]
+	mov		r10, rdx
+	call	_marco_call
+	test	rax, rax
 	jne		_else
+								;    {
 _if:
-	push	rdi
-	mov		rdi, [rbx + 0x00]
-	mov		[rax + 0x00], rdi
-	pop		rdi
-
-	push	rax
-	push	rcx
-	push	rdx
-	push	rsi
-	push	rbx
-
-	call	rcx
-	pop		rdi
-	call	free
-
-	pop		rsi
-	pop		rdi
-	pop		rdx
-	pop		rcx
-	pop		rax
-
-	mov		rbx, [rax + 0x00]
-
-	jmp _second_loop_start
+								;        prev->next = current->next;
+	mov		rax, [rbp - 0x08]
+	mov		rbx, [rbp - 0x00]
+	mov		rbx, [rbx + 0x00]
+	mov		[rax + 0x00], rbx
+								;        free_fct(current->data);
+	mov		rax, [rbp - 0x00]
+	mov		r9, [rax + 0x08]
+	mov		r10, rcx
+	call	_marco_call
+								;        free(current);
+	mov		r9, [rbp - 0x00]
+	mov		r10, free
+	call	_marco_call
+								;        current = prev->next;
+	mov		rax, [rbp - 0x08]
+	mov		rax, [rax + 0x00]
+	mov		[rbp - 0x00], rax
+								;    }
+	jmp	_second_loop_end
+								;    else {
 _else:
-	mov		rax, rbx
-	mov		rbx, [rax + 0x00]
-
-	jmp _second_loop_start
+								;        prev = current;
+	mov		rax, [rbp - 0x00]
+	mov		[rbp - 0x08], rax
+								;        current = current->next;
+	mov		rax, [rbp - 0x00]
+	mov		rax, [rax + 0x00]
+	mov		[rbp - 0x00], rax
+								;    }
+_second_loop_end:
+								; }
+	jmp		_second_loop_start
 _ret:
+	add		rsp, 24
+	pop		rbp
 	ret

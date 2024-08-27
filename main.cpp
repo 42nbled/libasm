@@ -118,6 +118,18 @@ long	diff_str(t_list *a, t_list *b) {
     return strcmp(data_a, data_b);
 }
 
+void lst_free(t_list *a)
+{
+	while (a)
+	{
+    	if (a->data)
+			free(a->data);
+		t_list *b = a->next;
+		free(a);
+		a = b;
+	}
+}
+
 void ft_free(void *data)
 {
     free(data);
@@ -299,7 +311,8 @@ int main() {
 	test_strdup("This is a test string for ft_strdup.");
 	std::cout << std::endl;
 
-	{	// Test ft_atoi_base
+	{
+		// Test ft_atoi_base
 		print_header("FT_ATOI_BASE");
 		std::cout << std::endl;
 		std::cout << "\033[1mERROR MANAGEMENT\033[0m" << std::endl;
@@ -334,63 +347,73 @@ int main() {
 		std::cout << std::endl;
 	}
 
-	print_header("FT_LIST_PUSH_FRONT");
+	{
+		t_list *nbr = NULL;
+		t_list *str = NULL;
+		t_list *test = NULL;
 
-	t_list *nbr = NULL;
-    t_list *str = NULL;
+		// test ft_list_push_front
+		print_header("FT_LIST_PUSH_FRONT");
+		std::cout << std::endl;
+		init_list(&nbr, "int", 10, 3, 5, 6, 2, 9, 5, 1, 4, 1, 3);
+		init_list(&str, "str", 5, "amet", "sit", "dolor", "ipsum,", "lorem");
+		std:: cout << "int list       = ";
+		print_list(nbr, print_int);
+		std:: cout << "string list    = ";
+		print_list(str, print_str);
+		std::cout << std::endl;
 
-	// Initialize the list with the given values
-	printf("##Initializing int list##\n");
-	// init_list(&nbr, "int", 10, 7, 4, 6, 3, 8, 4, 7, 4, 1, 3);
-	init_list(&nbr, "int", 4, 3, 1, 3, 3);
-	printf("##Initializing string list##\n");
-	init_list(&str, "str", 5, "amet", "sit", "dolor", "ipsum,", "lorem");
+		// test ft_list_size
+		print_header("FT_LIST_SIZE");
+		std::cout << std::endl;
+		std:: cout << "Size of NULL list : " << ft_list_size(test) << std::endl;
+		std:: cout << "Size of nbr list  : " << ft_list_size(nbr) << std::endl;
+		std:: cout << "Size of str list  : " << ft_list_size(str) << std::endl;
+		std::cout << std::endl;
 
-    // // Print the lists
-	printf("\n");
-	printf("int list    = ");
-    print_list(nbr, print_int);
-	printf("string list = ");
-    print_list(str, print_str);
+		// test ft_list_sort
+		print_header("FT_LIST_SORT");
+		std::cout << std::endl;
 
-	// // // Print lists size
-	// printf("\n");
-	// printf("Size of nbr list : %d\n", ft_list_size(nbr));
-	// printf("Size of str list : %d\n", ft_list_size(str));
+		std::cout << "before sort : ";
+		print_list(test, print_int);
+		ft_list_sort(&test, (int (*)())diff_int);
+		std::cout << "after sort  : ";
+		print_list(test, print_int);
+		std::cout << std::endl;
+		std::cout << "before sort : ";
+		print_list(nbr, print_int);
+		ft_list_sort(&nbr, (int (*)())diff_int);
+		std::cout << "after sort  : ";
+		print_list(nbr, print_int);
+		std::cout << std::endl;
+		std::cout << "before sort : ";
+		print_list(str, print_str);
+		ft_list_sort(&str, (int (*)())diff_str);
+		std::cout << "after sort  : ";
+		print_list(str, print_str);
+		std::cout << std::endl;
 
-	// // Sort the lists
-	// printf("\n");
-	// printf("before sort : ");
-	// print_list(nbr, print_int);
-	// ft_list_sort(&nbr, (int (*)())diff_int);
-	// printf("after sort  : ");
-	// print_list(nbr, print_int);
-	// printf("\n");
-	// printf("before sort : ");
-	// print_list(str, print_str);
-	// ft_list_sort(&str, (int (*)())diff_str);
-	// printf("after sort  : ");
-	// print_list(str, print_str);
+		// test ft_list_remove if
+		print_header("FT_LIST_REMOVE_IF");
 
-	// Remove if
-	printf("\n");
-	int		a = 3;
-    void	*tmp = &a;
-	printf("##Removing 3 in int list##\n");
-    ft_list_remove_if(&nbr, tmp, (int (*)())is_troie, ft_free);
+		// std::cout << std::endl;
+		// int		a = 3;
+		// void	*tmp = &a;
+		// printf("##Removing 3 in int list##\n");
+		// ft_list_remove_if(&nbr, tmp, (int (*)())is_troie, ft_free);
+		// char 	*b = "sit";
+		// tmp = b;
+		// printf("##Removing sit in string list##\n");
+		// ft_list_remove_if(&str, tmp, ft_strcmp, ft_free);
+		// std::cout << std::endl;
+		// printf("int list    = ");
+		// print_list(nbr, print_int);
+		// printf("string list = ");
+		// print_list(str, print_str);
 
-    // Remove strings
-    // char 	*b = "sit";
-    // tmp = b;
-	// printf("##Removing sit in string list##\n");
-    // ft_list_remove_if(&str, tmp, ft_strcmp, ft_free);
-
-    // // Print the lists
-	printf("\n");
-	printf("int list    = ");
-    print_list(nbr, print_int);
-	printf("string list = ");
-    print_list(str, print_str);
-
+		lst_free(nbr);
+		lst_free(str);
+	}
 	return 0;
 }

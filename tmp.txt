@@ -1,8 +1,8 @@
-rax = prev
-rbx = current (prev->next)
-rcx = free_fct
-rdx = cmp
-rdi = current->data
-rsi = data_ref
+; rdi = t_list **begin_list
+; rsi = void *data_ref
+; rdx = int (*cmp)()
+; rcx = void (*free_fct)(void *)
 
-stack :
+; rbp - 0	= current
+; rbp - 8	= prev
+; rbp - 16	= temp
