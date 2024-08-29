@@ -1,24 +1,34 @@
 NAME = libasm.a
 OBJ_DIR = objs
-SRCS =  ft_write.s \
-        ft_read.s \
-        ft_strlen.s \
-        ft_strcpy.s \
-        ft_strcmp.s \
-        ft_strdup.s \
-		ft_atoi_base.s \
-		ft_list_push_front.s \
-		ft_list_size.s \
-		ft_list_sort.s \
-		ft_list_remove_if.s
+SRCS =  libasm/ft_write.s \
+        libasm/ft_read.s \
+        libasm/ft_strlen.s \
+        libasm/ft_strcpy.s \
+        libasm/ft_strcmp.s \
+        libasm/ft_strdup.s \
+        libasm/ft_atoi_base.s \
+        libasm/ft_list_push_front.s \
+        libasm/ft_list_size.s \
+        libasm/ft_list_sort.s \
+        libasm/ft_list_remove_if.s
 
 OBJS = $(patsubst %.s, $(OBJ_DIR)/%.o, $(SRCS))
 
 NA = nasm
 NA_FLAGS = -f elf64 -g -F dwarf
 
-CXX_SRCS = main.cpp
-CXX_OBJS = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(CXX_SRCS))
+CXX_SRCS = tester/main.cpp \
+        tester/ft_write_tester.cpp \
+        tester/ft_read_tester.cpp \
+        tester/ft_strlen_tester.cpp \
+        tester/ft_strcpy_tester.cpp \
+        tester/ft_strcmp_tester.cpp \
+        tester/ft_strdup_tester.cpp \
+        tester/ft_atoi_base_tester.cpp \
+        tester/utils.cpp
+
+# Adjusted CXX_OBJS generation to account for the path structure
+CXX_OBJS = $(CXX_SRCS:%.cpp=$(OBJ_DIR)/%.o)
 EXEC = test_program
 
 # Rule to create the static library
