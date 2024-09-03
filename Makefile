@@ -5,14 +5,15 @@ SRCS =  libasm/ft_write.s \
         libasm/ft_strlen.s \
         libasm/ft_strcpy.s \
         libasm/ft_strcmp.s \
-        libasm/ft_strdup.s \
-        libasm/ft_atoi_base.s \
-        libasm/ft_list_push_front.s \
-        libasm/ft_list_size.s \
-        libasm/ft_list_sort.s \
-        libasm/ft_list_remove_if.s
+        libasm/ft_strdup.s
+BONUS_SRCS = libasm/ft_atoi_base.s \
+             libasm/ft_list_push_front.s \
+             libasm/ft_list_size.s \
+             libasm/ft_list_sort.s \
+             libasm/ft_list_remove_if.s
 
 OBJS = $(patsubst %.s, $(OBJ_DIR)/%.o, $(SRCS))
+BONUS_OBJS = $(patsubst %.s, $(OBJ_DIR)/%.o, $(BONUS_SRCS))
 
 NA = nasm
 NA_FLAGS = -f elf64 -g -F dwarf
@@ -27,7 +28,6 @@ CXX_SRCS = tester/main.cpp \
         tester/ft_atoi_base_tester.cpp \
         tester/utils.cpp
 
-# Adjusted CXX_OBJS generation to account for the path structure
 CXX_OBJS = $(CXX_SRCS:%.cpp=$(OBJ_DIR)/%.o)
 EXEC = test_program
 
@@ -36,6 +36,12 @@ $(NAME): $(OBJS)
 	@echo "\033[0;34mCreating $(NAME)...\033[0m"
 	ar rcs $(NAME) $(OBJS)
 	@echo "\033[0;32mLibrary $(NAME) created.\033[0m"
+
+# Rule to create the static library with bonus objects
+bonus: $(OBJS) $(BONUS_OBJS)
+	@echo "\033[0;34mCreating $(NAME) with bonus...\033[0m"
+	ar rcs $(NAME) $(OBJS) $(BONUS_OBJS)
+	@echo "\033[0;32mLibrary $(NAME) with bonus created.\033[0m"
 
 # Rule to compile assembly files into object files
 $(OBJ_DIR)/%.o: %.s
@@ -60,7 +66,7 @@ libasm: $(NAME)
 exe: $(EXEC)
 
 # Default rule to build everything
-all: libasm exe
+all: libasm bonus exe
 
 clean:
 	@echo "\033[0;34mCleaning objects...\033[0m"
@@ -74,4 +80,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re libasm exe
+.PHONY: all clean fclean re libasm exe bonus

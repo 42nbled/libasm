@@ -1,6 +1,8 @@
 section .text
 global ft_strcmp
 
+; rdi = const char *s1
+; rsi = const char *s2
 ft_strcmp:
     ; test    rsi, rsi
     ; je      _strcmp_ret_zero
@@ -17,7 +19,7 @@ _strcmp_body:
     inc     rsi
     jmp     _strcmp_body
 _strcmp_ret_zero:
-    mov   rax, 0
+    mov     rax, 0
     ret
 _strcmp_ret:
     sub     al, bl

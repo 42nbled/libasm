@@ -1,6 +1,7 @@
 #include "tester.hpp"
 
 void test_write(const char *str, int fd) {
+	std::cout << std::endl;
 	std::cout << "write :" << std::endl;
 	ssize_t bytes_written = write(fd, str, ft_strlen(str));
 	int a = errno;

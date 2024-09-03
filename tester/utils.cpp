@@ -25,13 +25,12 @@ void init_list(t_list** head, const std::string& type, int count, ...) {
     va_start(args, count);
 
     for (int i = 0; i < count; i++) {
-        if (type == "int") {  // Integer type
+        if (type == "int") {
             int* value = new int(va_arg(args, int));
-			// std::cout << value << std::endl;
             ft_list_push_front(head, static_cast<void*>(value));
-        } else if (type == "str") {  // String type
+        } else if (type == "str") {
             char* str = va_arg(args, char*);
-            char* value = strdup(str);  // Duplicate the string to allocate memory
+            char* value = strdup(str);
             ft_list_push_front(head, static_cast<void*>(value));
         }
     }
@@ -39,7 +38,6 @@ void init_list(t_list** head, const std::string& type, int count, ...) {
     va_end(args);
 }
 
-// Function to print the linked list
 void print_list(t_list* head, void (*print_data)(void*)) {
     t_list* temp = head;
     while (temp != nullptr) {
@@ -49,12 +47,10 @@ void print_list(t_list* head, void (*print_data)(void*)) {
     std::cout << "NULL" << std::endl;
 }
 
-// Example print function for integers
 void print_int(void* data) {
     std::cout << *(static_cast<int*>(data)) << " -> ";
 }
 
-// Example print function for strings
 void print_str(void* data) {
     std::cout << static_cast<char*>(data) << " ";
 }

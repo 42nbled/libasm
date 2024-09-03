@@ -1,6 +1,8 @@
 section .text
 global ft_atoi_base
 
+; rdi = char *str
+; rsi = char *base
 _ret_zero_clear:
     pop     rax
     pop     rax

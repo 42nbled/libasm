@@ -4,6 +4,7 @@ extern ft_strlen
 extern malloc
 extern ft_strcpy
 
+; rdi = const char *s1
 ft_strdup:
     test    rdi, rdi
     jz      _null_return

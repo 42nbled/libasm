@@ -1,6 +1,7 @@
 section .text
 global ft_strlen
 
+; rdi = const char *str
 ft_strlen:
     mov     rax, 0
     jmp     _strlen_body

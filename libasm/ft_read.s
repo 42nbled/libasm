@@ -2,12 +2,14 @@ section .text
 global ft_read
 extern __errno_location
 
+; rdi = int fd
+; rsi = void *buf
+; rdx = size_t nbyte
 ft_read:
-    mov rax, 0h
+    mov		rax, 0
     syscall
-
 	cmp		rax, 0
-	jg		_ret
+	jge		_ret
 
 	mov		rbx, rax
 	call	__errno_location

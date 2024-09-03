@@ -96,6 +96,7 @@ int main() {
 		print_header("FT_LIST_PUSH_FRONT");
 		std::cout << std::endl;
 		init_list(&nbr, "int", 10, 3, 5, 6, 2, 9, 5, 1, 4, 1, 3);
+		// init_list(&nbr, "int", 10, 0, 7, -3, 6, -2, 5, -1, 4, 3, 2);
 		init_list(&str, "str", 5, "amet", "sit", "dolor", "ipsum,", "lorem");
 		std:: cout << "int list       = ";
 		print_list(nbr, print_int);
