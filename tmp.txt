@@ -1,8 +1,0 @@
-; rdi = t_list **begin_list
-; rsi = void *data_ref
-; rdx = int (*cmp)()
-; rcx = void (*free_fct)(void *)
-
-; rbp - 0	= current
-; rbp - 8	= prev
-; rbp - 16	= temp

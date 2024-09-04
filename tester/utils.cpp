@@ -48,36 +48,41 @@ void print_list(t_list* head, void (*print_data)(void*)) {
 }
 
 void print_int(void* data) {
-    std::cout << *(static_cast<int*>(data)) << " -> ";
+    std::cout << (long long)data << " -> ";
 }
 
 void print_str(void* data) {
     std::cout << static_cast<char*>(data) << " ";
 }
 
-long	diff_int(t_list *a, t_list *b) {
-    if (!a || !a->data)
-		return 0;
-	if (!b || !b->data)
-		return 0;
-	int data_a = *(int *)a->data;
-    int data_b = *(int *)b->data;
-
-    return (data_a - data_b);
+long	diff_int(void *a, void *b) {
+    return ((long long)a > (long long)b);
 }
 
-long	diff_str(t_list *a, t_list *b) {
-    if (!a || !a->data)
-		return 0;
-	if (!b || !b->data)
-		return 0;
-    char *data_a = (char *)a->data;
-    char *data_b = (char *)b->data;
+long	diff_str(void *a, void *b) {
+    return ((char *)a > (char *)b);
+}
 
-    return strcmp(data_a, data_b);
+char* allocate_string(const char* str) {
+    size_t len = strlen(str) + 1;  // +1 for the null terminator
+    char* new_str = (char*)malloc(len);
+    if (new_str != nullptr) {
+        strcpy(new_str, str);  // Copy the string to the newly allocated memory
+    }
+    return new_str;
 }
 
 void lst_free(t_list *a)
+{
+	while (a)
+	{
+		t_list *b = a->next;
+		free(a);
+		a = b;
+	}
+}
+
+void lst_free_malloc(t_list *a)
 {
 	while (a)
 	{
@@ -94,6 +99,11 @@ void ft_free(void *data)
     free(data);
 }
 
+void ft_free_nothing(void *data)
+{
+    (void)data;
+}
+
 int    ft_strcmp(void *data1, void *data2)
 {
 	return strcmp((char *)data1, (char *)data2);
@@ -104,9 +114,16 @@ int    ft_intcmp(void *data1, void *data2)
     return (*(int *)data1 - *(int *)data2);
 }
 
-int		is_equal(void *data1, void *data2)
+int		is_equal_int(void *data1, void *data2)
 {
-	if (*(int *)data1 == *(int *)data2)
+	if ((long long)data1 == (long long)data2)
+		return 0;
+	return 1;
+}
+
+int		is_equal_str(void *data1, void *data2)
+{
+	if (*(char *)data1 == *(char *)data2)
 		return 0;
 	return 1;
 }

@@ -95,9 +95,21 @@ int main() {
 		// test ft_list_push_front
 		print_header("FT_LIST_PUSH_FRONT");
 		std::cout << std::endl;
-		init_list(&nbr, "int", 10, 3, 5, 6, 2, 9, 5, 1, 4, 1, 3);
-		// init_list(&nbr, "int", 10, 0, 7, -3, 6, -2, 5, -1, 4, 3, 2);
-		init_list(&str, "str", 5, "amet", "sit", "dolor", "ipsum,", "lorem");
+		ft_list_push_front(&nbr, (void*)3);
+		ft_list_push_front(&nbr, (void*)5);
+		ft_list_push_front(&nbr, (void*)6);
+		ft_list_push_front(&nbr, (void*)2);
+		ft_list_push_front(&nbr, (void*)9);
+		ft_list_push_front(&nbr, (void*)5);
+		ft_list_push_front(&nbr, (void*)1);
+		ft_list_push_front(&nbr, (void*)4);
+		ft_list_push_front(&nbr, (void*)1);
+		ft_list_push_front(&nbr, (void*)3);
+		ft_list_push_front(&str, (void*)allocate_string("amet"));
+		ft_list_push_front(&str, (void*)allocate_string("sit"));
+		ft_list_push_front(&str, (void*)allocate_string("dolor"));
+		ft_list_push_front(&str, (void*)allocate_string("ipsum,"));
+		ft_list_push_front(&str, (void*)allocate_string("lorem"));
 		std:: cout << "int list       = ";
 		print_list(nbr, print_int);
 		std:: cout << "string list    = ";
@@ -115,7 +127,6 @@ int main() {
 		// test ft_list_sort
 		print_header("FT_LIST_SORT");
 		std::cout << std::endl;
-
 		std::cout << "before sort : ";
 		print_list(test, print_int);
 		ft_list_sort(&test, (int (*)())diff_int);
@@ -146,7 +157,7 @@ int main() {
 		printf("NULL list    = ");
 		print_list(test, print_int);
 		printf("##Removing 3 in NULL list##\n");
-		ft_list_remove_if(&test, tmp, (int (*)())is_equal, ft_free);
+		ft_list_remove_if(&test, (void*)3, (int (*)())is_equal_int, ft_free_nothing);
 		printf("NULL list    = ");
 		print_list(test, print_int);
 		std::cout << std::endl;
@@ -154,7 +165,7 @@ int main() {
 		printf("int list    = ");
 		print_list(nbr, print_int);
 		printf("##Removing 3 in int list##\n");
-		ft_list_remove_if(&nbr, tmp, (int (*)())is_equal, ft_free);
+		ft_list_remove_if(&nbr, (void*)3, (int (*)())is_equal_int, ft_free_nothing);
 		printf("int list    = ");
 		print_list(nbr, print_int);
 		std::cout << std::endl;
@@ -163,12 +174,12 @@ int main() {
 		printf("str list    = ");
 		print_list(str, print_str);
 		printf("##Removing sit in str list##\n");
-		ft_list_remove_if(&str, tmp, (int (*)())is_equal, ft_free);
+		ft_list_remove_if(&str, tmp, (int (*)())is_equal_str, ft_free);
 		printf("str list    = ");
 		print_list(str, print_str);
 
 		lst_free(nbr);
-		lst_free(str);
+		lst_free_malloc(str);
 	}
 	std::cout << std::endl;
 	return 0;

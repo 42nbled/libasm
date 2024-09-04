@@ -50,12 +50,16 @@ void 	init_list(t_list** head, const std::string& type, int count, ...);
 void 	print_list(t_list* head, void (*print_data)(void*));
 void 	print_int(void* data);
 void 	print_str(void* data);
-long	diff_int(t_list *a, t_list *b);
-long	diff_str(t_list *a, t_list *b);
+long	diff_int(void *a, void *b);
+long	diff_str(void *a, void *b);
+char	*allocate_string(const char* str);
 void 	lst_free(t_list *a);
+void 	lst_free_malloc(t_list *a);
 void 	ft_free(void *data);
+void 	ft_free_nothing(void *data);
 int    	ft_strcmp(void *data1, void *data2);
 int    	ft_intcmp(void *data1, void *data2);
-int		is_equal(void *data1, void *data2);
+int		is_equal_int(void *data1, void *data2);
+int		is_equal_str(void *data1, void *data2);
 
 #endif

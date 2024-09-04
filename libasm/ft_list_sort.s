@@ -122,8 +122,8 @@ _while_do_d:
 	push	rbx
 	push	rcx
 
-	mov		rdi, rcx
-	mov		rsi, rbx
+	mov		rdi, [rcx + 0x08]
+	mov		rsi, [rbx + 0x08]
 	call	r9
 	mov		r10, rax
 
