@@ -1,1 +1,0 @@
-git rm main.cpp && git rm objs/ft_atoi_base.o && git rm objs/ft_list_push_front.o && git rm objs/ft_list_size.o && git rm objs/ft_read.o && git rm objs/ft_strcmp.o && git rm objs/ft_strcpy.o && git rm objs/ft_strdup.o && git rm objs/ft_strlen.o && git rm objs/ft_write.o && git rm objs/main.o && git rm test_file.txt

@@ -38,7 +38,7 @@ _loop_start:
 	test	rax, rax
 	je		_loop_end
 								; && cmp((*begin_list)->data, data_ref) == 0
-	mov		r9, [rax + 0x08]
+	mov		r9, [rax + 0x00]
 	mov		r10, rdx
 	call	_macro_call
 	test	rax, rax
@@ -50,11 +50,11 @@ _loop_do:
 	mov		[rbp - 0x18], rax
 								;     *begin_list = (*begin_list)->next;
 	mov		rax, [rdi]
-	mov		rax, [rax + 0x00]
+	mov		rax, [rax + 0x08]
 	mov		[rdi], rax
 								;     free_fct(temp->data);
 	mov		rax, [rbp - 0x18]
-	mov		r9, [rax + 0x08]
+	mov		r9, [rax + 0x00]
 	mov		r10, rcx
 	call	_macro_call
 								;     free(temp);
@@ -66,7 +66,7 @@ _loop_do:
 _loop_end:
 								; prev = *begin_list;
 	mov		rax, [rdi]
-	mov		[rbp - 0x10], rdi
+	mov		[rbp - 0x10], rax
 								; if (prev == NULL)
 	mov		rax, [rbp - 0x10]
 	test	rax, rax
@@ -74,7 +74,7 @@ _loop_end:
 	je		_ret
 								; current = prev->next;
 	mov		rax, [rbp - 0x10]
-	mov		rax, [rax + 0x00]
+	mov		rax, [rax + 0x08]
 	mov		[rbp - 0x08], rax
 								; while (
 _second_loop_start:
@@ -85,7 +85,7 @@ _second_loop_start:
 								;    ) {
 _second_loop_do:
 								;    if (cmp(current->data, data_ref) == 0)
-	mov		r9, [rax + 0x08]
+	mov		r9, [rax + 0x00]
 	mov		r10, rdx
 	call	_macro_call
 	test	rax, rax
@@ -95,11 +95,11 @@ _if:
 								;        prev->next = current->next;
 	mov		rax, [rbp - 0x10]
 	mov		rbx, [rbp - 0x08]
-	mov		rbx, [rbx + 0x00]
-	mov		[rax + 0x00], rbx
+	mov		rbx, [rbx + 0x08]
+	mov		[rax + 0x08], rbx
 								;        free_fct(current->data);
 	mov		rax, [rbp - 0x08]
-	mov		r9, [rax + 0x08]
+	mov		r9, [rax + 0x00]
 	mov		r10, rcx
 	call	_macro_call
 								;        free(current);
@@ -108,7 +108,7 @@ _if:
 	call	_macro_call
 								;        current = prev->next;
 	mov		rax, [rbp - 0x10]
-	mov		rax, [rax + 0x00]
+	mov		rax, [rax + 0x08]
 	mov		[rbp - 0x08], rax
 								;    }
 	jmp		_second_loop_end
@@ -119,7 +119,7 @@ _else:
 	mov		[rbp - 0x10], rax
 								;        current = current->next;
 	mov		rax, [rbp - 0x08]
-	mov		rax, [rax + 0x00]
+	mov		rax, [rax + 0x08]
 	mov		[rbp - 0x08], rax
 								;    }
 _second_loop_end:

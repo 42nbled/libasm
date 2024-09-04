@@ -46,7 +46,7 @@ _while_start_a:
 	je		_while_end_a
 _while_do_a:
 								; { first = &(*first)->next; }
-	lea		rax, [rbx + 0x00]
+	lea		rax, [rbx + 0x08]
 	jmp		_while_start_a
 _while_end_a:
 	push	rax
@@ -63,7 +63,7 @@ _while_start_b:
 	je		_while_end_b
 _while_do_b:
 								; { second = &(*second)->next; }
-	lea		rax, [rbx + 0x00]
+	lea		rax, [rbx + 0x08]
 	jmp		_while_start_b
 _while_end_b:
 	push	rax
@@ -77,9 +77,9 @@ _while_end_b:
 								; rsi = &(*second)->next)
 								; rdi = &(*first)->next
 	mov		rsi, [rsi]
-	lea		rsi, [rsi + 0x00]
+	lea		rsi, [rsi + 0x08]
 	mov		rdi, [rdi]
-	lea		rdi, [rdi + 0x00]
+	lea		rdi, [rdi + 0x08]
 								; ft_swap(first, second);
 	call	_ft_swap
 	jmp		_ret
@@ -101,7 +101,7 @@ _while_start_c:
 	test	rax, rax
 	je		_ret
 								;  && a->next)
-	mov		rbx, [rax + 0x00]
+	mov		rbx, [rax + 0x08]
 	test	rbx, rbx
 	je		_ret
 								; {
@@ -122,8 +122,8 @@ _while_do_d:
 	push	rbx
 	push	rcx
 
-	mov		rdi, [rcx + 0x08]
-	mov		rsi, [rbx + 0x08]
+	mov		rdi, [rcx + 0x00]
+	mov		rsi, [rbx + 0x00]
 	call	r9
 	mov		r10, rax
 
@@ -140,12 +140,12 @@ _while_do_d:
 								;         }
 _after_cmp:
 								;     b = b->next;
-	mov		rbx, [rbx + 0x00]
+	mov		rbx, [rbx + 0x08]
 								;     }
 	jmp		_while_start_d
 _while_end_d:
 								;     d = a->next;
-	mov		rdx, [rax + 0x00]
+	mov		rdx, [rax + 0x08]
 								;     ft_lst_swap(begin_list, a, c);
 	push	rdi
 	push	rsi

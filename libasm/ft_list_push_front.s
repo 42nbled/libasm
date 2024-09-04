@@ -19,9 +19,9 @@ ft_list_push_front:
 	pop		rdi
 								; a->next = *begin_list;
 	mov		rbx, [rdi]
-	mov		[rax + 0x00], rbx
+	mov		[rax + 0x08], rbx
 								; a->data = data;
-	mov		[rax + 0x08], rsi
+	mov		[rax + 0x00], rsi
 								; *begin_list = a;
 	mov		[rdi], rax
 _ret:

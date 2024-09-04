@@ -48,7 +48,7 @@ void print_list(t_list* head, void (*print_data)(void*)) {
 }
 
 void print_int(void* data) {
-    std::cout << (long long)data << " -> ";
+    std::cout << *(int*)data << " -> ";
 }
 
 void print_str(void* data) {
@@ -56,7 +56,7 @@ void print_str(void* data) {
 }
 
 long	diff_int(void *a, void *b) {
-    return ((long long)a > (long long)b);
+    return (*(int*)a > *(int*)b);
 }
 
 long	diff_str(void *a, void *b) {
@@ -116,7 +116,7 @@ int    ft_intcmp(void *data1, void *data2)
 
 int		is_equal_int(void *data1, void *data2)
 {
-	if ((long long)data1 == (long long)data2)
+	if (*(int*)data1 == *(int*)data2)
 		return 0;
 	return 1;
 }

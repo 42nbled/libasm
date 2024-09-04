@@ -8,7 +8,7 @@ ft_list_size:
 	test	rdi, rdi
 	je		_ret_zero
 								; rdi = begin_list->next
-	mov		rdi, [rdi + 0x00]
+	mov		rdi, [rdi + 0x08]
 								; if (rdi == NULL)
 								;     return 1;
 	test	rdi, rdi

@@ -95,16 +95,16 @@ int main() {
 		// test ft_list_push_front
 		print_header("FT_LIST_PUSH_FRONT");
 		std::cout << std::endl;
-		ft_list_push_front(&nbr, (void*)3);
-		ft_list_push_front(&nbr, (void*)5);
-		ft_list_push_front(&nbr, (void*)6);
-		ft_list_push_front(&nbr, (void*)2);
-		ft_list_push_front(&nbr, (void*)9);
-		ft_list_push_front(&nbr, (void*)5);
-		ft_list_push_front(&nbr, (void*)1);
-		ft_list_push_front(&nbr, (void*)4);
-		ft_list_push_front(&nbr, (void*)1);
-		ft_list_push_front(&nbr, (void*)3);
+		ft_list_push_front(&nbr, new int(3));
+		ft_list_push_front(&nbr, new int(5));
+		ft_list_push_front(&nbr, new int(6));
+		ft_list_push_front(&nbr, new int(2));
+		ft_list_push_front(&nbr, new int(9));
+		ft_list_push_front(&nbr, new int(5));
+		ft_list_push_front(&nbr, new int(1));
+		ft_list_push_front(&nbr, new int(4));
+		ft_list_push_front(&nbr, new int(1));
+		ft_list_push_front(&nbr, new int(3));
 		ft_list_push_front(&str, (void*)allocate_string("amet"));
 		ft_list_push_front(&str, (void*)allocate_string("sit"));
 		ft_list_push_front(&str, (void*)allocate_string("dolor"));
@@ -157,7 +157,7 @@ int main() {
 		printf("NULL list    = ");
 		print_list(test, print_int);
 		printf("##Removing 3 in NULL list##\n");
-		ft_list_remove_if(&test, (void*)3, (int (*)())is_equal_int, ft_free_nothing);
+		ft_list_remove_if(&test, (void*)tmp, (int (*)())is_equal_int, ft_free);
 		printf("NULL list    = ");
 		print_list(test, print_int);
 		std::cout << std::endl;
@@ -165,7 +165,7 @@ int main() {
 		printf("int list    = ");
 		print_list(nbr, print_int);
 		printf("##Removing 3 in int list##\n");
-		ft_list_remove_if(&nbr, (void*)3, (int (*)())is_equal_int, ft_free_nothing);
+		ft_list_remove_if(&nbr, (void*)tmp, (int (*)())is_equal_int, ft_free);
 		printf("int list    = ");
 		print_list(nbr, print_int);
 		std::cout << std::endl;
@@ -178,7 +178,7 @@ int main() {
 		printf("str list    = ");
 		print_list(str, print_str);
 
-		lst_free(nbr);
+		lst_free_malloc(nbr);
 		lst_free_malloc(str);
 	}
 	std::cout << std::endl;
