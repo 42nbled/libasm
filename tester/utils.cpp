@@ -64,10 +64,10 @@ long	diff_str(void *a, void *b) {
 }
 
 char* allocate_string(const char* str) {
-    size_t len = strlen(str) + 1;  // +1 for the null terminator
+    size_t len = strlen(str) + 1;
     char* new_str = (char*)malloc(len);
     if (new_str != nullptr) {
-        strcpy(new_str, str);  // Copy the string to the newly allocated memory
+        strcpy(new_str, str);
     }
     return new_str;
 }

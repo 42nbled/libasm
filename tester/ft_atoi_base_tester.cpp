@@ -6,7 +6,7 @@ void test_ft_atoi_base(std::string str, std::string base) {
 	strcpy(s, str.c_str());
 	strcpy(b, base.c_str());
 
-	std::cout << std::left; // Align text to the left
+	std::cout << std::left;
     std::cout << "String: \"" << std::setw(15) << str + "\"";
     std::cout << "Base: \"" << std::setw(20) << base + "\"";
 	std::cout << "Result: \"";

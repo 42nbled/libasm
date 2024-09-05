@@ -19,20 +19,20 @@ ft_atoi_base:
     test    al, al
     je      _ret_zero
 _double_character_check:
-    mov     rax, 0    ; i = 0
+    mov     rax, 0                              ; i = 0
 _double_character_check_loop_one:
-    mov     cl, byte [rsi + rax]    ; cl = base[i]
-    test    cl, cl    ; ret 1 si [dl != '\0']
+    mov     cl, byte [rsi + rax]                ; cl = base[i]
+    test    cl, cl                              ; ret 1 si [dl != '\0']
     je      _valid_character_check
-    mov     rbx, rax    ; y = i + 1
+    mov     rbx, rax                            ; y = i + 1
     inc     rbx
 _double_character_check_loop_two:
-    mov     dl, byte [rsi + rbx]    ; dl = base[y]
-    test    dl, dl    ; ret debut loop 1 si [dl != '\0']
+    mov     dl, byte [rsi + rbx]                ; dl = base[y]
+    test    dl, dl                              ; ret debut loop 1 si [dl != '\0']
     je      _continue_loop_one
-    cmp     cl, dl    ; ret 0 si cl = dl
+    cmp     cl, dl                              ; ret 0 si cl = dl
     je     _ret_zero
-    inc     rbx    ; y++
+    inc     rbx                                 ; y++
     jmp     _double_character_check_loop_two    ; ret debut loop 2
 _continue_loop_one:
     ; i++
@@ -67,18 +67,18 @@ _skip_white_space:
 _skip_white_space_loop:
     mov     al, byte [rdi]
     test    al, al
-    je      _determine_signe  ; End of string, return
-    cmp     al, 9             ; Tab
+    je      _determine_signe        ; End of string, return
+    cmp     al, 9                   ; Tab
     je      _skip_white_space
-    cmp     al, 10            ; Newline
+    cmp     al, 10                  ; Newline
     je      _skip_white_space
-    cmp     al, 11            ; Vertical tab
+    cmp     al, 11                  ; Vertical tab
     je      _skip_white_space
-    cmp     al, 12            ; Form feed
+    cmp     al, 12                  ; Form feed
     je      _skip_white_space
-    cmp     al, 13            ; Carriage return
+    cmp     al, 13                  ; Carriage return
     je      _skip_white_space
-    cmp     al, 32            ; Space
+    cmp     al, 32                  ; Space
     je      _skip_white_space
 _determine_signe:
     mov     rax, 1

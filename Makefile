@@ -16,7 +16,7 @@ OBJS = $(patsubst %.s, $(OBJ_DIR)/%.o, $(SRCS))
 BONUS_OBJS = $(patsubst %.s, $(OBJ_DIR)/%.o, $(BONUS_SRCS))
 
 NA = nasm
-NA_FLAGS = -f elf64 -g -F dwarf
+NA_FLAGS = -f elf64 -g -F dwarf -DPIC
 
 CXX_SRCS = tester/main.cpp \
         tester/ft_write_tester.cpp \
@@ -56,7 +56,7 @@ $(OBJ_DIR)/%.o: %.cpp
 # Rule to link the executable using the static library
 $(EXEC): $(CXX_OBJS) $(NAME)
 	@echo "\033[0;34mLinking $(EXEC)...\033[0m"
-	g++ $(CXX_OBJS) -L. -lasm -o $(EXEC) -lc -no-pie
+	g++ -pie -fPIE $(CXX_OBJS) -L. -lasm -o $(EXEC) -lc
 	@echo "\033[0;32mExecutable $(EXEC) created.\033[0m"
 
 # Rule to build the library only

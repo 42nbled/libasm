@@ -6,15 +6,16 @@ extern __errno_location
 ; rsi = const void *buf
 ; rdx = size_t nbyte
 ft_write:
-    mov 	rax, 1
+    mov rax, 1
     syscall
-	cmp		rax, 0
-	jge		_ret
+    cmp rax, 0
+    jge _return
 
-	mov		rbx, rax
-	call	__errno_location
-	neg		rbx
-	mov		[rax], rbx
-	mov		rax, -1
-_ret:
-	ret
+    neg rax
+    mov rbx, rax
+    call __errno_location wrt ..plt
+    mov [rax], ebx
+    mov rax, -1
+
+_return:
+    ret

@@ -15,7 +15,7 @@ ft_strdup:
     add     rax, 1
     mov     rdi, rax
 
-    call    malloc
+    call    malloc wrt ..plt
     test    rax, rax
     jz      _null_return
 

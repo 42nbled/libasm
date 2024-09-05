@@ -12,9 +12,9 @@ ft_read:
 	jge		_ret
 
 	mov		rbx, rax
-	call	__errno_location
+	call	__errno_location wrt ..plt
 	neg		rbx
-	mov		[rax], rbx
+	mov		[rax], ebx
 	mov		rax, -1
 _ret:
 	ret

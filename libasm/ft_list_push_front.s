@@ -9,7 +9,7 @@ ft_list_push_front:
 	push	rsi
 								; t_list *a = malloc(sizeof(t_list));
 	mov		rdi, 16
-	call	malloc
+	call	malloc wrt ..plt
 								; if (a)
 	test	rax, rax
 								;     return;
