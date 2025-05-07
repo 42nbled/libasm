@@ -1,0 +1,3 @@
+# Libasm
+
+This project involves creating a library in assembly called libasm.a, where you will implement several standard C functions in 64-bit assembly. The mandatory functions include ft_strlen, ft_strcpy, ft_strcmp, ft_write, ft_read, and ft_strdup, along with proper error handling and setting the errno variable. The bonus part consists of implementing additional functions related to linked lists, such as ft_atoi_base and various list manipulation functions (ft_list_push_front, ft_list_size, ft_list_sort, and ft_list_remove_if). The goal is to gain a deeper understanding of low-level programming, system calls, and memory management using assembly.
